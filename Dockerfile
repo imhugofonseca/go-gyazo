@@ -19,6 +19,6 @@ RUN chown -R www-data:www-data .
 COPY upload.cgi /opt/gyazo/upload.cgi
 
 EXPOSE 80
-
 COPY start.sh /start.sh
+RUN ["chmod", "+x", "/start.sh"]
 CMD ["/start.sh"]
