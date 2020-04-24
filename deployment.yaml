@@ -23,12 +23,16 @@ spec:
             - name: web
               containerPort: 80
           env:
-          - name: DO_ACCESS_KEY
+          - name: BKT_HOST  
+            value: "fra1.digitaloceanspaces.com"
+          - name: BKT_SPACE_DOMAIN  
+            value: "img.hugo.gg"
+          - name: BKT_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: gyazo-do-keys
                 key: DO_ACCESS_KEY
-          - name: DO_SECRET_ACCESS_KEY
+          - name: BKT_SECRET_ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: gyazo-do-keys
