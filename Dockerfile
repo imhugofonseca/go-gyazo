@@ -1,24 +1,10 @@
-FROM ubuntu:12.04
-ENV DEBIAN_FRONTEND noninteractive
-RUN /usr/sbin/dpkg-reconfigure -f noninteractive tzdata
-
-RUN sed -i 's/archive.ubuntu.com/ftp.jaist.ac.jp\/pub\/Linux/' /etc/apt/sources.list
-RUN apt-get update && apt-get install -y \
-    apache2-mpm-prefork \
-    ruby1.9.3
-
-# Apache2 settings
-RUN echo "ScriptAlias /gyazo/upload.cgi /opt/gyazo/upload.cgi" > /etc/apache2/conf.d/gyazo.conf
-RUN sed -i 's/var\/www/opt\/gyazo/' /etc/apache2/sites-available/default
-
-# install Gyazo
-WORKDIR /opt/gyazo
-RUN mkdir data
-RUN mkdir db
-RUN chown -R www-data:www-data .
-COPY upload.cgi /opt/gyazo/upload.cgi
-
-EXPOSE 80
-COPY start.sh /start.sh
-RUN ["chmod", "+x", "/start.sh"]
-CMD ["/start.sh"]
+FROM golang:alpine as builder
+RUN mkdir /build 
+ADD . /build/
+WORKDIR /build 
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
+FROM alpine as release
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /build/main /app/
+WORKDIR /app
+CMD ["./main"]

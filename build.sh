@@ -1,2 +1,2 @@
-docker build -t registry.gitlab.com/hugofonseca/gyazo .
-docker push registry.gitlab.com/hugofonseca/gyazo
+docker build -t docker.pkg.github.com/imhugofonseca/gyazo/gyazo .
+docker push docker.pkg.github.com/imhugofonseca/gyazo/gyazo

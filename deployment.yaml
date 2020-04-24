@@ -1,8 +1,12 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
+  namespace: default
   name: gyazo
+  labels:
+    app: gyazo
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: gyazo
@@ -12,21 +16,56 @@ spec:
         app: gyazo
     spec:
       containers:
-      - name: gyazo
-        image: registry.gitlab.com/hugofonseca/gyazo
-        ports:
-        - containerPort: 80
+        - name: gyazo
+          image: docker.pkg.github.com/imhugofonseca/gyazo/gyazo
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80
+          env:
+          - name: DO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: gyazo-do-keys
+                key: DO_ACCESS_KEY
+          - name: DO_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: gyazo-do-keys
+                key: DO_SECRET_ACCESS_KEY
       imagePullSecrets:
-        - name: gitlab-registry
+        - name: github-registry
+      
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: gayzo
+  name: gyazo
+  namespace: default
+  labels:
+    app: gyazo
 spec:
-  selector:
-    app: gayzo
   ports:
-  - port: 80
-    targetPort: 80
+    - protocol: TCP
+      name: web
+      port: 80
+  selector:
+    app: gyazo
 ---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gyazo-route
+  namespace: default
+  labels:
+    app: gyazo
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`upload.img.hugo.gg`)
+    kind: Rule
+    services:
+    - name: gyazo
+      port: 80
+  
