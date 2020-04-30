@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: gyazo
-          image: docker.pkg.github.com/imhugofonseca/gyazo/gyazo
+          image: docker.pkg.github.com/imhugofonseca/go-gyazo/gyazo
           imagePullPolicy: Always
           ports:
             - name: web
@@ -25,6 +25,8 @@ spec:
           env:
           - name: BKT_HOST  
             value: "fra1.digitaloceanspaces.com"
+          - name: BKT_NAME 
+            value: "hugoimg"
           - name: BKT_SPACE_DOMAIN  
             value: "img.hugo.gg"
           - name: BKT_ACCESS_KEY
@@ -38,8 +40,7 @@ spec:
                 name: gyazo-do-keys
                 key: DO_SECRET_ACCESS_KEY
       imagePullSecrets:
-        - name: github-registry
-      
+        - name: github-registry 
 ---
 apiVersion: v1
 kind: Service

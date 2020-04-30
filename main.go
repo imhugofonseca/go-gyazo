@@ -31,6 +31,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	accessKey := os.Getenv("BKT_ACCESS_KEY")
 	secKey := os.Getenv("BKT_SECRET_ACCESS_KEY")
 	spaceDomain := os.Getenv("BKT_SPACE_DOMAIN")
+	bktName := os.Getenv("BKT_NAME")
 
 	client, err := minio.New(host, accessKey, secKey, true)
 	if err != nil {
@@ -41,7 +42,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	fileName := fmt.Sprintf("%s.png", hash)
 	contentType := "image/png"
 	userMetaData := map[string]string{"x-amz-acl": "public-read"}
-	_, err = client.PutObject("hugoimg", fileName, reader, reader.Size(), minio.PutObjectOptions{
+	_, err = client.PutObject(bktName, fileName, reader, reader.Size(), minio.PutObjectOptions{
 		ContentType:  contentType,
 		UserMetadata: userMetaData,
 	})
