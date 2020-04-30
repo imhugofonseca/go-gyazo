@@ -30,7 +30,7 @@ Or you can use it directly from github docker registry
 After having the server up and running you must configure your gyazo app to use the server. You can do so by recompiling your own, check [gyazo repository](https://github.com/gyazo/Gyazo).
 
 ## Sample screenshot
-Just for clot wheres an example screenshot
+Just for clot here is an example screenshot
 
 https://img.hugo.gg/1bGlaCrE1hzzgW94CjR3Qh0RMDh.png
 ![Example screenshot](https://img.hugo.gg/1bGlaCrE1hzzgW94CjR3Qh0RMDh.png)
