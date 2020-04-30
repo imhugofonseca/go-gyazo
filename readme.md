@@ -1,4 +1,7 @@
 # Gyazo Server Go
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/1Q52VzcG3848UiWmK81bxqqpQqKehBiQYF)](https://en.cryptobadges.io/donate/1Q52VzcG3848UiWmK81bxqqpQqKehBiQYF)
+
+
 Simple implementation of the [gyazo server](https://github.com/gyazo/Gyazo/blob/master/Server/upload.cgi) in golang that uploads screenshots to a bucket (AWS, DO Spaces, etc..) using [minio](https://github.com/minio/minio-go).
 
 ## Why?
